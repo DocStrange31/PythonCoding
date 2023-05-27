@@ -20,24 +20,34 @@ def ser(x):
         ser(x.left)
         b+='# '
     else:
-        b+='# '
+        b+='# # '
 
+c='root left left.left # # right # root #'
 def deser(data):
+    global obj
     l1=data.split()
-    it = iter(l1)
+    obj=Node(l1[0])
+    l1.pop(0)
 
-    def recur():
-        value = next(it)
-        if value == '#':
-            return None
-        else:
-            return Node(value, recur(), recur())
-    return recur()
+    def recur(x):
+        if len(l1):
+            value = l1[0]
+            l1.pop(0)
+            if value == '#':
+                pass
+            else:
+                x = Node(value)
+                print(x.val)
+                recur(x.left)
+                recur(x.right)
+    recur(obj)
 
-ser(node)
+
+deser(c)
+ser(obj)
 print(b)
-s=deser(b)
-print(s.left.val)
+
+
 
 
 
