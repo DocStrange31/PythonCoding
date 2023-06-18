@@ -16,6 +16,22 @@ def logistic_cost(X,y,w,b):
         cost+=-y[i]*np.log(f_wb) - (1-y[i])*np.log(1-f_wb)
     cost/=m
     return cost
+
+def logistic_cost_reg(X,y,w,b,lambda_=1):
+    m,n=X.shape
+    cost=0.0
+    for i in range(m):
+        z=np.dot(X[i],w)+b
+        f_wb=sigmoid(z)
+        cost+=-y[i]*np.log(f_wb) - (1-y[i])*np.log(1-f_wb)
+    cost/=m
+    reg_cost=0
+    for j in range(n):
+        reg_cost+=w[j]**2
+    reg_cost/=lambda_/(2*m)
+    cost+=reg_cost
+    return cost
+
 def compute_gradient_logistic(X,y,w,b):
     m,n=X.shape
     dj_dw=np.zeros(n)
@@ -28,6 +44,22 @@ def compute_gradient_logistic(X,y,w,b):
         dj_db+=err
     dj_dw/=m
     dj_db/=m
+    return dj_dw,dj_db
+
+def compute_gradient_logistic_reg(X,y,w,b,lambda_=1):
+    m,n=X.shape
+    dj_dw=np.zeros(n)
+    dj_db=0
+    for i in range(m):
+        f_wb=sigmoid(np.dot(X[i],w)+b)
+        err=f_wb-y[i]
+        for j in range(n):
+            dj_dw[j]+=err*X[i][j]
+        dj_db+=err
+    dj_dw/=m
+    dj_db/=m
+    for j in range(n):
+        dj_dw[j]+=(lambda_/m)*w[j]
     return dj_dw,dj_db
 
 def gradient_descent(X,y,w_in,b_in,alpha,iters):
