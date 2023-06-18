@@ -109,12 +109,26 @@ while(1):
         print("Please Enter Number between 1 and 9")
         count-=1
         continue
+    elif x<0:
+        print("Please Enter Number between 1 and 9")
+        count -= 1
+        continue
     y=x//3
     z=x%3
     if k==0:
-        game[y][z]=1
+        if game[y][z]==0:
+            game[y][z]=1
+        else:
+            print(f"Position {x+1} is already filled")
+            count-=1
+            continue
     else:
-        game[y][z]=2
+        if game[y][z]==0:
+            game[y][z]=2
+        else:
+            print(f"Position {x+1} is already filled")
+            count-=1
+            continue
     if checkwin(game) > 0 or checkdraw(game) > 0:
         break
 printgame(game)
