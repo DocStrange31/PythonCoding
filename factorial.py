@@ -1,0 +1,1 @@
+x=lambda a: 0 if a==1
